@@ -1,14 +1,23 @@
 import mongoose from "mongoose";
 
-export const connection = () => {
-  mongoose
-    .connect(process.env.MONGO_URI, {
+let isConnected = false; // track connection state
+
+export const connection = async () => {
+  if (isConnected) {
+    console.log("Using existing MongoDB connection");
+    return;
+  }
+
+  try {
+    const db = await mongoose.connect(process.env.MONGO_URI, {
       dbName: "LIBRARY_MANAGEMENT_SYSTEM",
-    })
-    .then(() => {
-      console.log("Connected to database.");
-    })
-    .catch((err) => {
-      console.log(`Some error occured while connecting to database: ${err}`);
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
+
+    isConnected = db.connections[0].readyState === 1;
+    console.log(" Connected to database.");
+  } catch (err) {
+    console.error(`Error connecting to database: ${err.message}`);
+  }
 };
