@@ -8,6 +8,7 @@ cloudinary.v2.config({
 });
 
 export default function handler(req, res) {
+  await connection();
   app(req, res);
 }
 
