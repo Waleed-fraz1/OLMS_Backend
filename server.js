@@ -1,5 +1,6 @@
 import { app } from "../app.js";
 import cloudinary from "cloudinary";
+import connection from "../config/connection.js"; 
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
@@ -7,8 +8,10 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_CLIENT_SECRET,
 });
 
-export default function handler(req, res) {
-  await connection();
-  app(req, res);
+// Vercel handler
+export default async function handler(req, res) {
+  await connection();   
+  return app(req, res); 
 }
+
 
