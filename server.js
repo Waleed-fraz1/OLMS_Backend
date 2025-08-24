@@ -8,7 +8,7 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_CLIENT_SECRET,
 });
 
-// Vercel handler
+
 export default async function handler(req, res) {
   await connection();   
   return app(req, res); 
